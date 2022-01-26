@@ -14,12 +14,16 @@
         public string? Mobile { get; set; }
         public string? Phone { get; set; }
         public string? ContactPerson { get; set; }
+        public string? ReferredBy { get; set; }
         public string? Logo { get; set; }
         public int Status { get; set; }
         public double Balance { get; set; }
         public string? SMTPServer { get; set; }
-        public string? SMTPPort { get; set; }
+        public int SMTPPort { get; set; }
         public string? SMTPUsername { get; set; }
         public string? SMTPPassword { get; set; }
+        public bool Deleted { get; set; }
+        public DateTime CtreatedOnUtc { get; set; }
+        public DateTime UpdatedOnUtc { get; set; }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using A4Aero.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 
 namespace A4Aero.Controllers
@@ -45,7 +43,7 @@ namespace A4Aero.Controllers
         [HttpPost]
         public JsonResult Post(BusinessEntities b)
         {
-            string query = @"INSERT INTO dbo.BusinessEntities (Code,Email,Name,Street,City,State,Zip,Country,Mobile,Phone,ContactPerson,Logo,Status,Balance,SMTPServer,SMTPPort,SMTPUsername,SMTPPassword) VALUES(@Code,@Email,@Name,@Street,@City,@State,@Zip,@Country,@Mobile,@Phone,@ContactPerson,@Logo,@Status,@Balance,@SMTPServer,@SMTPPort,@SMTPUsername,@SMTPPassword)";
+            string query = @"INSERT INTO dbo.BusinessEntities (Code,Email,Name,Street,City,State,Zip,Country,Mobile,Phone,ContactPerson,ReferredBy,Logo,Status,Balance,SMTPServer,SMTPPort,SMTPUsername,SMTPPassword,Deleted,CreatedOnUtc,UpdatedOnUtc) VALUES(@Code,@Email,@Name,@Street,@City,@State,@Zip,@Country,@Mobile,@Phone,@ContactPerson,@ReferredBy,@Logo,@Status,@Balance,@SMTPServer,@SMTPPort,@SMTPUsername,@SMTPPassword,@Deleted,@CreatedOnUtc,@UpdatedOnUtc)";
 
             DataTable data = new();
 
@@ -66,6 +64,7 @@ namespace A4Aero.Controllers
                 myCmd.Parameters.AddWithValue("@Mobile", b.Mobile);
                 myCmd.Parameters.AddWithValue("@Phone", b.Phone);
                 myCmd.Parameters.AddWithValue("@ContactPerson", b.ContactPerson);
+                myCmd.Parameters.AddWithValue("@ReferredBy", b.ReferredBy);
                 myCmd.Parameters.AddWithValue("@Logo", b.Logo);
                 myCmd.Parameters.AddWithValue("@Status", b.Status);
                 myCmd.Parameters.AddWithValue("@Balance", b.Balance);
@@ -73,6 +72,9 @@ namespace A4Aero.Controllers
                 myCmd.Parameters.AddWithValue("@SMTPPort", b.SMTPPort);
                 myCmd.Parameters.AddWithValue("@SMTPUsername", b.SMTPUsername);
                 myCmd.Parameters.AddWithValue("@SMTPPassword", b.SMTPPassword);
+                myCmd.Parameters.AddWithValue("@Deleted", b.Deleted);
+                myCmd.Parameters.AddWithValue("@CreatedOnUtc", DateTime.UtcNow);
+                myCmd.Parameters.AddWithValue("@UpdatedOnUtc", DateTime.UtcNow);
 
                 reader = myCmd.ExecuteReader();
                 data.Load(reader);
@@ -86,7 +88,7 @@ namespace A4Aero.Controllers
         [HttpPut]
         public JsonResult Put(BusinessEntities b)
         {
-            string query = @"UPDATE BusinessEntities SET(Code=@Code,Email=@Email,Name=@Name,Street=@Street,City=@City,State=@State,Zip=@Zip,Country=@Country,Mobile=@Mobile,Phone=@Phone,ContactPerson=@ContactPerson,Logo=@Logo,Status=@Status,Balance=@Balance,SMTPServer=@SMTPServer,SMTPPort=@SMTPPort,SMTPUsername=@SMTPUsername,SMTPPassword=@SMTPPassword) WHERE BusinessId=@BusinessId";
+            string query = @"UPDATE dbo.BusinessEntities(Code,Email,Name,Street,City,State,Zip,Country,Mobile,Phone,ContactPerson,ReferredBy,Logo,Status,Balance,SMTPServer,SMTPPort,SMTPUsername,SMTPPassword,Deleted,CreatedOnUtc,UpdatedOnUtc) SET(Code=@Code,Email=@Email,Name=@Name,Street=@Street,City=@City,State=@State,Zip=@Zip,Country=@Country,Mobile=@Mobile,Phone=@Phone,ContactPerson=@ContactPerson,ReferredBy=@ReferredBy,Logo=@Logo,Status=@Status,Balance=@Balance,SMTPServer=@SMTPServer,SMTPPort=@SMTPPort,SMTPUsername=@SMTPUsername,SMTPPassword=@SMTPPassword,Deleted=@Deleted,CreatedOnUtc=@CreatedOnUtc,UpdatedOnUtc=@UpdatedOnUtc) WHERE BusinessId=@BusinessId;";
 
             DataTable data = new();
 
@@ -108,6 +110,7 @@ namespace A4Aero.Controllers
                 myCmd.Parameters.AddWithValue("@Mobile", b.Mobile);
                 myCmd.Parameters.AddWithValue("@Phone", b.Phone);
                 myCmd.Parameters.AddWithValue("@ContactPerson", b.ContactPerson);
+                myCmd.Parameters.AddWithValue("@ReferredBy", b.ReferredBy);
                 myCmd.Parameters.AddWithValue("@Logo", b.Logo);
                 myCmd.Parameters.AddWithValue("@Status", b.Status);
                 myCmd.Parameters.AddWithValue("@Balance", b.Balance);
@@ -115,6 +118,9 @@ namespace A4Aero.Controllers
                 myCmd.Parameters.AddWithValue("@SMTPPort", b.SMTPPort);
                 myCmd.Parameters.AddWithValue("@SMTPUsername", b.SMTPUsername);
                 myCmd.Parameters.AddWithValue("@SMTPPassword", b.SMTPPassword);
+                myCmd.Parameters.AddWithValue("@Deleted", b.Deleted);
+                myCmd.Parameters.AddWithValue("@CreatedOnUtc", b.CtreatedOnUtc);
+                myCmd.Parameters.AddWithValue("@UpdatedOnUtc", DateTime.UtcNow);
 
                 reader = myCmd.ExecuteReader();
                 data.Load(reader);
